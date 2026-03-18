@@ -1,5 +1,5 @@
 #include "core.h"
-#include "autostart.h"
+#include "autorun.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -260,9 +260,9 @@ static float total_list_height(void)
     return h;
 }
 
-int app_autostart(void)
+int app_autorun(void)
 {
-    core_init("l autostart", 600, 500);
+    core_init("l autorun", 600, 500);
     load_config();
 
     int remove_idx = -1;
@@ -280,7 +280,7 @@ int app_autostart(void)
         ClearBackground(GRV_BG);
 
         // title
-        DrawTextEx(g_font, "sway autostart manager", (Vector2){ 16, 12 }, 20, 1, GRV_AQUA);
+        DrawTextEx(g_font, "sway autorun manager", (Vector2){ 16, 12 }, 20, 1, GRV_AQUA);
 
         // entry list area
         DrawRectangle(10, 40, 580, 340, (Color){ 50, 48, 47, 255 });

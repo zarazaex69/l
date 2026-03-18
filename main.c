@@ -10,7 +10,7 @@
 Font g_font = {0};
 
 #include "helloworld.h"
-#include "autostart.h"
+#include "autorun.h"
 
 // program registry
 typedef struct {
@@ -21,7 +21,7 @@ typedef struct {
 
 static const Program programs[] = {
     { "helloworld", app_helloworld, "gruvbox hello world window" },
-    { "autostart",  app_autostart,  "sway autostart manager" },
+    { "autorun",  app_autorun,  "sway autorun manager" },
 };
 
 static const int program_count = sizeof(programs) / sizeof(programs[0]);
