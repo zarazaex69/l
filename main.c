@@ -16,6 +16,7 @@ Font g_font = {0};
 #include "keybind.h"
 #include "calc.h"
 #include "clock.h"
+#include "menu.h"
 
 // program registry
 typedef struct {
@@ -32,6 +33,7 @@ static const Program programs[] = {
     { "keybind",     app_keybind,     "sway keybind viewer" },
     { "calc",        app_calc,        "gruvbox calculator" },
     { "clock",       app_clock,       "analog clock" },
+    { "menu",        app_menu,        "power menu (shutdown/reboot)" },
 };
 
 static const int program_count = sizeof(programs) / sizeof(programs[0]);
