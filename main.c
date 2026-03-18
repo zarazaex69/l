@@ -57,6 +57,10 @@ int main(void)
 
     apply_gruvbox_style();
 
+    // load jetbrains mono
+    Font font = LoadFontEx("fonts/JetBrainsMono-Regular.ttf", 20, NULL, 0);
+    GuiSetFont(font);
+
     bool should_close = false;
 
     while (!WindowShouldClose() && !should_close) {
@@ -64,7 +68,7 @@ int main(void)
         ClearBackground(GRV_BG);
 
         // centered label
-        DrawText("Hello, World!", 120, 60, 20, GRV_FG);
+        DrawTextEx(font, "Hello, World!", (Vector2){ 120, 60 }, 20, 1, GRV_FG);
 
         // ok button -- closes the window when pressed
         if (GuiButton((Rectangle){ 150, 120, 100, 40 }, "OK")) {
@@ -74,6 +78,7 @@ int main(void)
         EndDrawing();
     }
 
+    UnloadFont(font);
     CloseWindow();
     return 0;
 }
