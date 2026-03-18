@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include "raylib.h"
 #include "raygui.h"
+#include "font_embed.h"
 
 // gruvbox dark palette
 #define GRV_BG      (Color){ 40,  40,  40,  255 }
@@ -70,10 +71,10 @@ static inline void core_init(const char *title, int w, int h)
     InitWindow(w, h, title);
     SetTargetFPS(60);
     apply_gruvbox_style();
-    // load font with ascii + cyrillic codepoints
+    // load embedded font with ascii + cyrillic codepoints
     int cp_count = 0;
     int *codepoints = core_build_codepoints(&cp_count);
-    g_font = LoadFontEx("fonts/JetBrainsMono-Regular.ttf", 32, codepoints, cp_count);
+    g_font = LoadFontFromMemory(".ttf", embedded_font_data, embedded_font_size, 32, codepoints, cp_count);
     free(codepoints);
     SetTextureFilter(g_font.texture, TEXTURE_FILTER_BILINEAR);
     GuiSetFont(g_font);
