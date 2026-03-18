@@ -2,14 +2,18 @@ CC      = tcc
 CFLAGS  = -Wall -Ivendor/raygui/src
 LDFLAGS = -lraylib -lm -lGL -lpthread -ldl -lrt
 
-TARGET  = hello
+BUILDDIR = build
+TARGET   = $(BUILDDIR)/hello
 
 all: $(TARGET)
 
-$(TARGET): main.c
+$(BUILDDIR):
+	mkdir -p $(BUILDDIR)
+
+$(TARGET): main.c | $(BUILDDIR)
 	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS)
 
 clean:
-	rm -f $(TARGET)
+	rm -rf $(BUILDDIR)
 
 .PHONY: all clean
