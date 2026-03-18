@@ -14,6 +14,7 @@ Font g_font = {0};
 #include "wallcreate.h"
 #include "wallsee.h"
 #include "keybind.h"
+#include "calc.h"
 
 // program registry
 typedef struct {
@@ -28,6 +29,7 @@ static const Program programs[] = {
     { "wallcreate",  app_wallcreate,  "generate gradient wallpaper (ppm)" },
     { "wallsee",     app_wallsee,     "wallpaper configurator gui" },
     { "keybind",     app_keybind,     "sway keybind viewer" },
+    { "calc",        app_calc,        "gruvbox calculator" },
 };
 
 static const int program_count = sizeof(programs) / sizeof(programs[0]);
