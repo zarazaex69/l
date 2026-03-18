@@ -1,8 +1,9 @@
 #include "core.h"
 #include "helloworld.h"
 
-int app_helloworld(void)
+int app_helloworld(int argc, char **argv)
 {
+    (void)argc; (void)argv;
     core_init("helloworld", 400, 200);
 
     bool should_close = false;

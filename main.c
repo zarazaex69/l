@@ -11,17 +11,19 @@ Font g_font = {0};
 
 #include "helloworld.h"
 #include "autorun.h"
+#include "wallcreate.h"
 
 // program registry
 typedef struct {
     const char *name;
-    int (*run)(void);
+    int (*run)(int argc, char **argv);
     const char *description;
 } Program;
 
 static const Program programs[] = {
-    { "helloworld", app_helloworld, "gruvbox hello world window" },
-    { "autorun",  app_autorun,  "sway autorun manager" },
+    { "helloworld",  app_helloworld,  "gruvbox hello world window" },
+    { "autorun",     app_autorun,     "sway autorun manager" },
+    { "wallcreate",  app_wallcreate,  "generate gradient wallpaper (ppm)" },
 };
 
 static const int program_count = sizeof(programs) / sizeof(programs[0]);
@@ -44,7 +46,7 @@ int main(int argc, char **argv)
 
     for (int i = 0; i < program_count; i++) {
         if (strcmp(name, programs[i].name) == 0)
-            return programs[i].run();
+            return programs[i].run(argc, argv);
     }
 
     fprintf(stderr, "error: unknown program '%s'\n\n", name);

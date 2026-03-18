@@ -260,8 +260,9 @@ static float total_list_height(void)
     return h;
 }
 
-int app_autorun(void)
+int app_autorun(int argc, char **argv)
 {
+    (void)argc; (void)argv;
     core_init("l autorun", 600, 500);
     load_config();
 
