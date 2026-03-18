@@ -13,6 +13,7 @@ Font g_font = {0};
 #include "autorun.h"
 #include "wallcreate.h"
 #include "wallsee.h"
+#include "keybind.h"
 
 // program registry
 typedef struct {
@@ -26,6 +27,7 @@ static const Program programs[] = {
     { "autorun",     app_autorun,     "sway autorun manager" },
     { "wallcreate",  app_wallcreate,  "generate gradient wallpaper (ppm)" },
     { "wallsee",     app_wallsee,     "wallpaper configurator gui" },
+    { "keybind",     app_keybind,     "sway keybind viewer" },
 };
 
 static const int program_count = sizeof(programs) / sizeof(programs[0]);

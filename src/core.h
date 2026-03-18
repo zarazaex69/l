@@ -2,6 +2,7 @@
 #define CORE_H
 
 #include <stddef.h>
+#include <stdlib.h>
 #include "raylib.h"
 #include "raygui.h"
 
@@ -50,15 +51,30 @@ static inline void apply_gruvbox_style(void)
 // shared font handle
 extern Font g_font;
 
+// build codepoint array: ascii + cyrillic
+static inline int *core_build_codepoints(int *count)
+{
+    // ascii 0x20..0x7e (95) + cyrillic 0x400..0x4ff (256)
+    int total = 95 + 256;
+    int *cp = (int *)malloc(total * sizeof(int));
+    int n = 0;
+    for (int i = 0x20; i <= 0x7E; i++) cp[n++] = i;
+    for (int i = 0x400; i <= 0x4FF; i++) cp[n++] = i;
+    *count = n;
+    return cp;
+}
+
 // init raylib window + gruvbox + font
 static inline void core_init(const char *title, int w, int h)
 {
     InitWindow(w, h, title);
     SetTargetFPS(60);
     apply_gruvbox_style();
-    // load at larger size for clean downscaling
-    g_font = LoadFontEx("fonts/JetBrainsMono-Regular.ttf", 32, NULL, 0);
-    // bilinear filter for smooth scaling
+    // load font with ascii + cyrillic codepoints
+    int cp_count = 0;
+    int *codepoints = core_build_codepoints(&cp_count);
+    g_font = LoadFontEx("fonts/JetBrainsMono-Regular.ttf", 32, codepoints, cp_count);
+    free(codepoints);
     SetTextureFilter(g_font.texture, TEXTURE_FILTER_BILINEAR);
     GuiSetFont(g_font);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
