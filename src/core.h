@@ -2,6 +2,7 @@
 #define CORE_H
 
 #include <stddef.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include "raylib.h"
 #include "raygui.h"
@@ -23,7 +24,14 @@ static inline int *core_build_codepoints(int *count)
 
 static inline void core_init(const char *title, int w, int h)
 {
+    SetTraceLogLevel(LOG_WARNING);
     InitWindow(w, h, title);
+
+    if (!IsWindowReady()) {
+        fprintf(stderr, "error: no display available (need wayland or x11 session)\n");
+        exit(1);
+    }
+
     SetTargetFPS(60);
 
     theme_load();
