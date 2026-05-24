@@ -46,7 +46,10 @@ int app_theme(int argc, char **argv)
             selected = (selected - 1 + builtin_theme_count) % builtin_theme_count;
         }
         if (IsKeyPressed(KEY_ENTER)) {
-            if (theme_write(&builtin_themes[selected]) == 0) {
+            const Theme *from = theme_find_builtin(g_theme.name);
+            const Theme *to   = &builtin_themes[selected];
+            theme_patch_user_configs(from, to);
+            if (theme_write(to) == 0) {
                 theme_load();
                 theme_apply_style();
                 theme_export_all(&g_theme);
@@ -102,7 +105,10 @@ int app_theme(int argc, char **argv)
         GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL,   theme_color(g_theme.bg));
         GuiSetStyle(BUTTON, BORDER_COLOR_NORMAL, theme_color(g_theme.green));
         if (GuiButton(apply_btn, "apply (Enter)")) {
-            if (theme_write(&builtin_themes[selected]) == 0) {
+            const Theme *from = theme_find_builtin(g_theme.name);
+            const Theme *to   = &builtin_themes[selected];
+            theme_patch_user_configs(from, to);
+            if (theme_write(to) == 0) {
                 theme_load();
                 theme_apply_style();
                 theme_export_all(&g_theme);

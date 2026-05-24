@@ -458,6 +458,189 @@ int theme_export_all(const Theme *t)
     return rc;
 }
 
+typedef struct {
+    Color from;
+    Color to;
+} ColorMap;
+
+static int build_color_map(const Theme *from, const Theme *to, ColorMap *out)
+{
+    int n = 0;
+    out[n].from = from->bg;            out[n++].to = to->bg;
+    out[n].from = from->bg1;           out[n++].to = to->bg1;
+    out[n].from = from->bg2;           out[n++].to = to->bg2;
+    out[n].from = from->bg3;           out[n++].to = to->bg3;
+    out[n].from = from->fg;            out[n++].to = to->fg;
+    out[n].from = from->fg0;           out[n++].to = to->fg0;
+    out[n].from = from->red;           out[n++].to = to->red;
+    out[n].from = from->orange;        out[n++].to = to->orange;
+    out[n].from = from->green;         out[n++].to = to->green;
+    out[n].from = from->aqua;          out[n++].to = to->aqua;
+    out[n].from = from->yellow;        out[n++].to = to->yellow;
+    out[n].from = from->blue;          out[n++].to = to->blue;
+    out[n].from = from->purple;        out[n++].to = to->purple;
+    out[n].from = from->gray;          out[n++].to = to->gray;
+    out[n].from = from->bright_red;    out[n++].to = to->bright_red;
+    out[n].from = from->bright_green;  out[n++].to = to->bright_green;
+    out[n].from = from->bright_yellow; out[n++].to = to->bright_yellow;
+    out[n].from = from->bright_blue;   out[n++].to = to->bright_blue;
+    out[n].from = from->bright_purple; out[n++].to = to->bright_purple;
+    out[n].from = from->bright_aqua;   out[n++].to = to->bright_aqua;
+    return n;
+}
+
+static void make_placeholder(char *out, int slot)
+{
+    out[0] = 0x01;
+    out[1] = 0x02;
+    out[2] = 0x03;
+    out[3] = (char)('a' + slot);
+    out[4] = 0x04;
+    out[5] = 0x05;
+    out[6] = '\0';
+}
+
+static void replace_eq(char *s, const char *find, const char *repl, size_t fixed_len)
+{
+    if (fixed_len == 0) return;
+    char *p = s;
+    while ((p = strstr(p, find))) {
+        memcpy(p, repl, fixed_len);
+        p += fixed_len;
+    }
+}
+
+static char *str_replace_all(const char *src, const char *find, const char *repl)
+{
+    size_t flen = strlen(find);
+    size_t rlen = strlen(repl);
+    size_t slen = strlen(src);
+    if (flen == 0) {
+        char *o = malloc(slen + 1);
+        memcpy(o, src, slen + 1);
+        return o;
+    }
+    int count = 0;
+    const char *p = src;
+    while ((p = strstr(p, find))) { count++; p += flen; }
+    if (count == 0) {
+        char *o = malloc(slen + 1);
+        memcpy(o, src, slen + 1);
+        return o;
+    }
+    long delta = (long)rlen - (long)flen;
+    size_t out_len = (size_t)((long)slen + delta * count);
+    char *out = malloc(out_len + 1);
+    char *dst = out;
+    p = src;
+    const char *next;
+    while ((next = strstr(p, find))) {
+        size_t chunk = (size_t)(next - p);
+        memcpy(dst, p, chunk);
+        dst += chunk;
+        memcpy(dst, repl, rlen);
+        dst += rlen;
+        p = next + flen;
+    }
+    size_t tail = strlen(p);
+    memcpy(dst, p, tail);
+    dst[tail] = '\0';
+    return out;
+}
+
+static int patch_hex_in_file(const char *path, const Theme *from, const Theme *to)
+{
+    size_t src_len = 0;
+    char *src = read_file(path, &src_len);
+    if (!src) return 0;
+
+    ColorMap map[32];
+    int n = build_color_map(from, to, map);
+
+    char old_lo[8], old_up[8], placeholder[8];
+    for (int i = 0; i < n; i++) {
+        snprintf(old_lo, sizeof(old_lo), "%02x%02x%02x", map[i].from.r, map[i].from.g, map[i].from.b);
+        snprintf(old_up, sizeof(old_up), "%02X%02X%02X", map[i].from.r, map[i].from.g, map[i].from.b);
+        make_placeholder(placeholder, i);
+        replace_eq(src, old_lo, placeholder, 6);
+        replace_eq(src, old_up, placeholder, 6);
+    }
+
+    char new_lo[8];
+    for (int i = 0; i < n; i++) {
+        snprintf(new_lo, sizeof(new_lo), "%02x%02x%02x", map[i].to.r, map[i].to.g, map[i].to.b);
+        make_placeholder(placeholder, i);
+        replace_eq(src, placeholder, new_lo, 6);
+    }
+
+    int rc = write_file(path, src, strlen(src));
+    free(src);
+    return rc;
+}
+
+static int patch_rgb_decimal_in_file(const char *path, const Theme *from, const Theme *to)
+{
+    size_t src_len = 0;
+    char *src = read_file(path, &src_len);
+    if (!src) return 0;
+
+    ColorMap map[32];
+    int n = build_color_map(from, to, map);
+
+    char *current = src;
+    for (int i = 0; i < n; i++) {
+        char old_rgb[16];
+        char placeholder_str[16];
+        snprintf(old_rgb, sizeof(old_rgb), "%d;%d;%d", map[i].from.r, map[i].from.g, map[i].from.b);
+        snprintf(placeholder_str, sizeof(placeholder_str), "\x01\x02\x03%c\x04\x05", 'a' + i);
+        char *next = str_replace_all(current, old_rgb, placeholder_str);
+        free(current);
+        current = next;
+    }
+    for (int i = 0; i < n; i++) {
+        char new_rgb[16];
+        char placeholder_str[16];
+        snprintf(placeholder_str, sizeof(placeholder_str), "\x01\x02\x03%c\x04\x05", 'a' + i);
+        snprintf(new_rgb, sizeof(new_rgb), "%d;%d;%d", map[i].to.r, map[i].to.g, map[i].to.b);
+        char *next = str_replace_all(current, placeholder_str, new_rgb);
+        free(current);
+        current = next;
+    }
+
+    int rc = write_file(path, current, strlen(current));
+    free(current);
+    return rc;
+}
+
+int theme_patch_user_configs(const Theme *from, const Theme *to)
+{
+    char path[512];
+    int rc = 0;
+
+    snprintf(path, sizeof(path), "%s/.config/fuzzel/fuzzel.ini", home_dir());
+    if (patch_hex_in_file(path, from, to) != 0) rc = -1;
+
+    snprintf(path, sizeof(path), "%s/.config/starship.toml", home_dir());
+    if (patch_hex_in_file(path, from, to) != 0) rc = -1;
+
+    snprintf(path, sizeof(path), "%s/.config/zellij/config.kdl", home_dir());
+    if (patch_hex_in_file(path, from, to) != 0) rc = -1;
+
+    snprintf(path, sizeof(path), "%s/.gitconfig", home_dir());
+    if (patch_hex_in_file(path, from, to) != 0) rc = -1;
+
+    snprintf(path, sizeof(path), "%s/.config/limine/limine.conf", home_dir());
+    if (patch_hex_in_file(path, from, to) != 0) rc = -1;
+
+    snprintf(path, sizeof(path), "%s/.config/fastfetch/config.jsonc", home_dir());
+    if (patch_hex_in_file(path, from, to) != 0) rc = -1;
+
+    snprintf(path, sizeof(path), "%s/.config/eza/colors", home_dir());
+    if (patch_rgb_decimal_in_file(path, from, to) != 0) rc = -1;
+
+    return rc;
+}
+
 void theme_reload_system(void)
 {
     int unused;

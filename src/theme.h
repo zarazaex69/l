@@ -19,6 +19,12 @@ typedef struct {
     Color blue;
     Color purple;
     Color gray;
+    Color bright_red;
+    Color bright_green;
+    Color bright_yellow;
+    Color bright_blue;
+    Color bright_purple;
+    Color bright_aqua;
 } Theme;
 
 extern Theme g_theme;
@@ -30,5 +36,6 @@ int  theme_color(Color c);
 void theme_apply_style(void);
 const char *theme_config_path(void);
 int  theme_write(const Theme *t);
+const Theme *theme_find_builtin(const char *name);
 
 #endif

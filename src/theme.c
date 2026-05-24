@@ -14,76 +14,109 @@ Theme g_theme;
 
 const Theme builtin_themes[] = {
     {
-        .name   = "gruvbox",
-        .bg     = { 40,  40,  40,  255 },
-        .bg1    = { 60,  56,  54,  255 },
-        .bg2    = { 80,  73,  69,  255 },
-        .bg3    = { 102, 92,  84,  255 },
-        .fg     = { 235, 219, 178, 255 },
-        .fg0    = { 251, 241, 199, 255 },
-        .red    = { 204, 36,  29,  255 },
-        .orange = { 214, 93,  14,  255 },
-        .green  = { 152, 151, 26,  255 },
-        .aqua   = { 104, 157, 106, 255 },
-        .yellow = { 215, 153, 33,  255 },
-        .blue   = { 69,  133, 136, 255 },
-        .purple = { 177, 98,  134, 255 },
-        .gray   = { 146, 131, 116, 255 },
+        .name           = "gruvbox",
+        .bg             = { 40,  40,  40,  255 },
+        .bg1            = { 60,  56,  54,  255 },
+        .bg2            = { 80,  73,  69,  255 },
+        .bg3            = { 102, 92,  84,  255 },
+        .fg             = { 235, 219, 178, 255 },
+        .fg0            = { 251, 241, 199, 255 },
+        .red            = { 204, 36,  29,  255 },
+        .orange         = { 214, 93,  14,  255 },
+        .green          = { 152, 151, 26,  255 },
+        .aqua           = { 104, 157, 106, 255 },
+        .yellow         = { 215, 153, 33,  255 },
+        .blue           = { 69,  133, 136, 255 },
+        .purple         = { 177, 98,  134, 255 },
+        .gray           = { 146, 131, 116, 255 },
+        .bright_red     = { 251, 73,  52,  255 },
+        .bright_green   = { 184, 187, 38,  255 },
+        .bright_yellow  = { 250, 189, 47,  255 },
+        .bright_blue    = { 131, 165, 152, 255 },
+        .bright_purple  = { 211, 134, 155, 255 },
+        .bright_aqua    = { 142, 192, 124, 255 },
     },
     {
-        .name   = "tokyo-night",
-        .bg     = { 0x1a, 0x1b, 0x26, 255 },
-        .bg1    = { 0x24, 0x28, 0x3b, 255 },
-        .bg2    = { 0x2f, 0x33, 0x4d, 255 },
-        .bg3    = { 0x41, 0x48, 0x68, 255 },
-        .fg     = { 0xc0, 0xca, 0xf5, 255 },
-        .fg0    = { 0xa9, 0xb1, 0xd6, 255 },
-        .red    = { 0xf7, 0x76, 0x8e, 255 },
-        .orange = { 0xff, 0x9e, 0x64, 255 },
-        .green  = { 0x9e, 0xce, 0x6a, 255 },
-        .aqua   = { 0x7d, 0xcf, 0xff, 255 },
-        .yellow = { 0xe0, 0xaf, 0x68, 255 },
-        .blue   = { 0x7a, 0xa2, 0xf7, 255 },
-        .purple = { 0xbb, 0x9a, 0xf7, 255 },
-        .gray   = { 0x56, 0x5f, 0x89, 255 },
+        .name           = "tokyo-night",
+        .bg             = { 0x1a, 0x1b, 0x26, 255 },
+        .bg1            = { 0x24, 0x28, 0x3b, 255 },
+        .bg2            = { 0x2f, 0x33, 0x4d, 255 },
+        .bg3            = { 0x41, 0x48, 0x68, 255 },
+        .fg             = { 0xc0, 0xca, 0xf5, 255 },
+        .fg0            = { 0xa9, 0xb1, 0xd6, 255 },
+        .red            = { 0xf7, 0x76, 0x8e, 255 },
+        .orange         = { 0xff, 0x9e, 0x64, 255 },
+        .green          = { 0x9e, 0xce, 0x6a, 255 },
+        .aqua           = { 0x7d, 0xcf, 0xff, 255 },
+        .yellow         = { 0xe0, 0xaf, 0x68, 255 },
+        .blue           = { 0x7a, 0xa2, 0xf7, 255 },
+        .purple         = { 0xbb, 0x9a, 0xf7, 255 },
+        .gray           = { 0x56, 0x5f, 0x89, 255 },
+        .bright_red     = { 0xff, 0x7a, 0x93, 255 },
+        .bright_green   = { 0xb9, 0xf2, 0x7c, 255 },
+        .bright_yellow  = { 0xff, 0xd0, 0x7c, 255 },
+        .bright_blue    = { 0x9a, 0xa5, 0xce, 255 },
+        .bright_purple  = { 0xc0, 0xa4, 0xf8, 255 },
+        .bright_aqua    = { 0xb4, 0xf9, 0xf8, 255 },
     },
     {
-        .name   = "catppuccin-mocha",
-        .bg     = { 0x1e, 0x1e, 0x2e, 255 },
-        .bg1    = { 0x28, 0x28, 0x3c, 255 },
-        .bg2    = { 0x31, 0x32, 0x44, 255 },
-        .bg3    = { 0x45, 0x47, 0x5a, 255 },
-        .fg     = { 0xcd, 0xd6, 0xf4, 255 },
-        .fg0    = { 0xf5, 0xe0, 0xdc, 255 },
-        .red    = { 0xf3, 0x8b, 0xa8, 255 },
-        .orange = { 0xfa, 0xb3, 0x87, 255 },
-        .green  = { 0xa6, 0xe3, 0xa1, 255 },
-        .aqua   = { 0x94, 0xe2, 0xd5, 255 },
-        .yellow = { 0xf9, 0xe2, 0xaf, 255 },
-        .blue   = { 0x89, 0xb4, 0xfa, 255 },
-        .purple = { 0xcb, 0xa6, 0xf7, 255 },
-        .gray   = { 0x6c, 0x70, 0x86, 255 },
+        .name           = "catppuccin-mocha",
+        .bg             = { 0x1e, 0x1e, 0x2e, 255 },
+        .bg1            = { 0x28, 0x28, 0x3c, 255 },
+        .bg2            = { 0x31, 0x32, 0x44, 255 },
+        .bg3            = { 0x45, 0x47, 0x5a, 255 },
+        .fg             = { 0xcd, 0xd6, 0xf4, 255 },
+        .fg0            = { 0xf5, 0xe0, 0xdc, 255 },
+        .red            = { 0xf3, 0x8b, 0xa8, 255 },
+        .orange         = { 0xfa, 0xb3, 0x87, 255 },
+        .green          = { 0xa6, 0xe3, 0xa1, 255 },
+        .aqua           = { 0x94, 0xe2, 0xd5, 255 },
+        .yellow         = { 0xf9, 0xe2, 0xaf, 255 },
+        .blue           = { 0x89, 0xb4, 0xfa, 255 },
+        .purple         = { 0xcb, 0xa6, 0xf7, 255 },
+        .gray           = { 0x6c, 0x70, 0x86, 255 },
+        .bright_red     = { 0xeb, 0xa0, 0xac, 255 },
+        .bright_green   = { 0xa6, 0xe3, 0xa1, 255 },
+        .bright_yellow  = { 0xf9, 0xe2, 0xaf, 255 },
+        .bright_blue    = { 0x74, 0xc7, 0xec, 255 },
+        .bright_purple  = { 0xb4, 0xbe, 0xfe, 255 },
+        .bright_aqua    = { 0x89, 0xdc, 0xeb, 255 },
     },
     {
-        .name   = "nord",
-        .bg     = { 0x2e, 0x34, 0x40, 255 },
-        .bg1    = { 0x3b, 0x42, 0x52, 255 },
-        .bg2    = { 0x43, 0x4c, 0x5e, 255 },
-        .bg3    = { 0x4c, 0x56, 0x6a, 255 },
-        .fg     = { 0xd8, 0xde, 0xe9, 255 },
-        .fg0    = { 0xec, 0xef, 0xf4, 255 },
-        .red    = { 0xbf, 0x61, 0x6a, 255 },
-        .orange = { 0xd0, 0x87, 0x70, 255 },
-        .green  = { 0xa3, 0xbe, 0x8c, 255 },
-        .aqua   = { 0x88, 0xc0, 0xd0, 255 },
-        .yellow = { 0xeb, 0xcb, 0x8b, 255 },
-        .blue   = { 0x81, 0xa1, 0xc1, 255 },
-        .purple = { 0xb4, 0x8e, 0xad, 255 },
-        .gray   = { 0x4c, 0x56, 0x6a, 255 },
+        .name           = "nord",
+        .bg             = { 0x2e, 0x34, 0x40, 255 },
+        .bg1            = { 0x3b, 0x42, 0x52, 255 },
+        .bg2            = { 0x43, 0x4c, 0x5e, 255 },
+        .bg3            = { 0x4c, 0x56, 0x6a, 255 },
+        .fg             = { 0xd8, 0xde, 0xe9, 255 },
+        .fg0            = { 0xec, 0xef, 0xf4, 255 },
+        .red            = { 0xbf, 0x61, 0x6a, 255 },
+        .orange         = { 0xd0, 0x87, 0x70, 255 },
+        .green          = { 0xa3, 0xbe, 0x8c, 255 },
+        .aqua           = { 0x88, 0xc0, 0xd0, 255 },
+        .yellow         = { 0xeb, 0xcb, 0x8b, 255 },
+        .blue           = { 0x81, 0xa1, 0xc1, 255 },
+        .purple         = { 0xb4, 0x8e, 0xad, 255 },
+        .gray           = { 0x4c, 0x56, 0x6a, 255 },
+        .bright_red     = { 0xbf, 0x61, 0x6a, 255 },
+        .bright_green   = { 0xa3, 0xbe, 0x8c, 255 },
+        .bright_yellow  = { 0xeb, 0xcb, 0x8b, 255 },
+        .bright_blue    = { 0x5e, 0x81, 0xac, 255 },
+        .bright_purple  = { 0xb4, 0x8e, 0xad, 255 },
+        .bright_aqua    = { 0x8f, 0xbc, 0xbb, 255 },
     },
 };
 
 const int builtin_theme_count = sizeof(builtin_themes) / sizeof(builtin_themes[0]);
+
+const Theme *theme_find_builtin(const char *name)
+{
+    for (int i = 0; i < builtin_theme_count; i++) {
+        if (strcmp(builtin_themes[i].name, name) == 0)
+            return &builtin_themes[i];
+    }
+    return &builtin_themes[0];
+}
 
 int theme_color(Color c)
 {
@@ -141,20 +174,26 @@ static int parse_kv(const char *line, char *key, size_t key_sz,
 
 static void assign_color(const char *key, Color c)
 {
-    if      (strcmp(key, "bg")     == 0) g_theme.bg     = c;
-    else if (strcmp(key, "bg1")    == 0) g_theme.bg1    = c;
-    else if (strcmp(key, "bg2")    == 0) g_theme.bg2    = c;
-    else if (strcmp(key, "bg3")    == 0) g_theme.bg3    = c;
-    else if (strcmp(key, "fg")     == 0) g_theme.fg     = c;
-    else if (strcmp(key, "fg0")    == 0) g_theme.fg0    = c;
-    else if (strcmp(key, "red")    == 0) g_theme.red    = c;
-    else if (strcmp(key, "orange") == 0) g_theme.orange = c;
-    else if (strcmp(key, "green")  == 0) g_theme.green  = c;
-    else if (strcmp(key, "aqua")   == 0) g_theme.aqua   = c;
-    else if (strcmp(key, "yellow") == 0) g_theme.yellow = c;
-    else if (strcmp(key, "blue")   == 0) g_theme.blue   = c;
-    else if (strcmp(key, "purple") == 0) g_theme.purple = c;
-    else if (strcmp(key, "gray")   == 0) g_theme.gray   = c;
+    if      (strcmp(key, "bg")             == 0) g_theme.bg             = c;
+    else if (strcmp(key, "bg1")            == 0) g_theme.bg1            = c;
+    else if (strcmp(key, "bg2")            == 0) g_theme.bg2            = c;
+    else if (strcmp(key, "bg3")            == 0) g_theme.bg3            = c;
+    else if (strcmp(key, "fg")             == 0) g_theme.fg             = c;
+    else if (strcmp(key, "fg0")            == 0) g_theme.fg0            = c;
+    else if (strcmp(key, "red")            == 0) g_theme.red            = c;
+    else if (strcmp(key, "orange")         == 0) g_theme.orange         = c;
+    else if (strcmp(key, "green")          == 0) g_theme.green          = c;
+    else if (strcmp(key, "aqua")           == 0) g_theme.aqua           = c;
+    else if (strcmp(key, "yellow")         == 0) g_theme.yellow         = c;
+    else if (strcmp(key, "blue")           == 0) g_theme.blue           = c;
+    else if (strcmp(key, "purple")         == 0) g_theme.purple         = c;
+    else if (strcmp(key, "gray")           == 0) g_theme.gray           = c;
+    else if (strcmp(key, "bright_red")     == 0) g_theme.bright_red     = c;
+    else if (strcmp(key, "bright_green")   == 0) g_theme.bright_green   = c;
+    else if (strcmp(key, "bright_yellow")  == 0) g_theme.bright_yellow  = c;
+    else if (strcmp(key, "bright_blue")    == 0) g_theme.bright_blue    = c;
+    else if (strcmp(key, "bright_purple")  == 0) g_theme.bright_purple  = c;
+    else if (strcmp(key, "bright_aqua")    == 0) g_theme.bright_aqua    = c;
 }
 
 void theme_load(void)
@@ -221,6 +260,12 @@ int theme_write(const Theme *t)
     fprintf(f, "blue   = %02x%02x%02x\n", t->blue.r,   t->blue.g,   t->blue.b);
     fprintf(f, "purple = %02x%02x%02x\n", t->purple.r, t->purple.g, t->purple.b);
     fprintf(f, "gray   = %02x%02x%02x\n", t->gray.r,   t->gray.g,   t->gray.b);
+    fprintf(f, "bright_red    = %02x%02x%02x\n", t->bright_red.r,    t->bright_red.g,    t->bright_red.b);
+    fprintf(f, "bright_green  = %02x%02x%02x\n", t->bright_green.r,  t->bright_green.g,  t->bright_green.b);
+    fprintf(f, "bright_yellow = %02x%02x%02x\n", t->bright_yellow.r, t->bright_yellow.g, t->bright_yellow.b);
+    fprintf(f, "bright_blue   = %02x%02x%02x\n", t->bright_blue.r,   t->bright_blue.g,   t->bright_blue.b);
+    fprintf(f, "bright_purple = %02x%02x%02x\n", t->bright_purple.r, t->bright_purple.g, t->bright_purple.b);
+    fprintf(f, "bright_aqua   = %02x%02x%02x\n", t->bright_aqua.r,   t->bright_aqua.g,   t->bright_aqua.b);
 
     fclose(f);
     return 0;
