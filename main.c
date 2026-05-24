@@ -17,6 +17,7 @@ Font g_font = {0};
 #include "calc.h"
 #include "clock.h"
 #include "menu.h"
+#include "paint.h"
 
 // program registry
 typedef struct {
@@ -34,6 +35,7 @@ static const Program programs[] = {
     { "calc",        app_calc,        "gruvbox calculator" },
     { "clock",       app_clock,       "analog clock" },
     { "menu",        app_menu,        "power menu (shutdown/reboot)" },
+    { "paint",       app_paint,       "minimal paint canvas" },
 };
 
 static const int program_count = sizeof(programs) / sizeof(programs[0]);
