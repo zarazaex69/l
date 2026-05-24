@@ -5,6 +5,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <unistd.h>
+#include <dirent.h>
 #include <sys/stat.h>
 
 static const char *home_dir(void)
@@ -486,6 +487,10 @@ static int build_color_map(const Theme *from, const Theme *to, ColorMap *out)
     out[n].from = from->bright_blue;   out[n++].to = to->bright_blue;
     out[n].from = from->bright_purple; out[n++].to = to->bright_purple;
     out[n].from = from->bright_aqua;   out[n++].to = to->bright_aqua;
+    out[n].from = from->bright_orange; out[n++].to = to->bright_orange;
+    out[n].from = from->bg_hard;       out[n++].to = to->bg_hard;
+    out[n].from = from->bg_soft;       out[n++].to = to->bg_soft;
+    out[n].from = from->white;         out[n++].to = to->white;
     return n;
 }
 
@@ -637,6 +642,40 @@ int theme_patch_user_configs(const Theme *from, const Theme *to)
 
     snprintf(path, sizeof(path), "%s/.config/eza/colors", home_dir());
     if (patch_rgb_decimal_in_file(path, from, to) != 0) rc = -1;
+
+    snprintf(path, sizeof(path), "%s/.config/yazi/flavors/gruvbox-dark.yazi/flavor.toml", home_dir());
+    if (patch_hex_in_file(path, from, to) != 0) rc = -1;
+
+    snprintf(path, sizeof(path), "%s/.config/yazi/flavors/gruvbox-dark.yazi/tmtheme.xml", home_dir());
+    if (patch_hex_in_file(path, from, to) != 0) rc = -1;
+
+    {
+        char glob_dir[512];
+        snprintf(glob_dir, sizeof(glob_dir), "%s/.mozilla/firefox", home_dir());
+        DIR *d = opendir(glob_dir);
+        if (d) {
+            struct dirent *ent;
+            while ((ent = readdir(d))) {
+                if (ent->d_name[0] == '.') continue;
+                char prof[768];
+                snprintf(prof, sizeof(prof), "%s/%s", glob_dir, ent->d_name);
+                struct stat st;
+                if (stat(prof, &st) != 0 || !S_ISDIR(st.st_mode)) continue;
+
+                snprintf(path, sizeof(path), "%s/chrome/userChrome.css", prof);
+                if (patch_hex_in_file(path, from, to) != 0) rc = -1;
+
+                snprintf(path, sizeof(path), "%s/chrome/userContent.css", prof);
+                if (patch_hex_in_file(path, from, to) != 0) rc = -1;
+
+                snprintf(path, sizeof(path), "%s/user.js", prof);
+                if (patch_hex_in_file(path, from, to) != 0) rc = -1;
+            }
+            closedir(d);
+        }
+    }
+
+    if (patch_hex_in_file("/etc/ly/config.ini", from, to) != 0) rc = -1;
 
     return rc;
 }

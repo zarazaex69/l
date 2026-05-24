@@ -35,6 +35,10 @@ const Theme builtin_themes[] = {
         .bright_blue    = { 131, 165, 152, 255 },
         .bright_purple  = { 211, 134, 155, 255 },
         .bright_aqua    = { 142, 192, 124, 255 },
+        .bright_orange  = { 254, 128, 25,  255 },
+        .bg_hard        = { 29,  32,  33,  255 },
+        .bg_soft        = { 50,  48,  47,  255 },
+        .white          = { 168, 153, 132, 255 },
     },
     {
         .name           = "tokyo-night",
@@ -58,6 +62,10 @@ const Theme builtin_themes[] = {
         .bright_blue    = { 0x9a, 0xa5, 0xce, 255 },
         .bright_purple  = { 0xc0, 0xa4, 0xf8, 255 },
         .bright_aqua    = { 0xb4, 0xf9, 0xf8, 255 },
+        .bright_orange  = { 0xff, 0x9e, 0x64, 255 },
+        .bg_hard        = { 0x16, 0x16, 0x1e, 255 },
+        .bg_soft        = { 0x1f, 0x23, 0x35, 255 },
+        .white          = { 0xa9, 0xb1, 0xd6, 255 },
     },
     {
         .name           = "catppuccin-mocha",
@@ -81,6 +89,10 @@ const Theme builtin_themes[] = {
         .bright_blue    = { 0x74, 0xc7, 0xec, 255 },
         .bright_purple  = { 0xb4, 0xbe, 0xfe, 255 },
         .bright_aqua    = { 0x89, 0xdc, 0xeb, 255 },
+        .bright_orange  = { 0xfa, 0xb3, 0x87, 255 },
+        .bg_hard        = { 0x11, 0x11, 0x1b, 255 },
+        .bg_soft        = { 0x18, 0x18, 0x25, 255 },
+        .white          = { 0x7f, 0x84, 0x9c, 255 },
     },
     {
         .name           = "nord",
@@ -104,6 +116,10 @@ const Theme builtin_themes[] = {
         .bright_blue    = { 0x5e, 0x81, 0xac, 255 },
         .bright_purple  = { 0xb4, 0x8e, 0xad, 255 },
         .bright_aqua    = { 0x8f, 0xbc, 0xbb, 255 },
+        .bright_orange  = { 0xd0, 0x87, 0x70, 255 },
+        .bg_hard        = { 0x29, 0x2e, 0x39, 255 },
+        .bg_soft        = { 0x36, 0x3c, 0x4a, 255 },
+        .white          = { 0xd8, 0xde, 0xe9, 255 },
     },
 };
 
@@ -194,6 +210,10 @@ static void assign_color(const char *key, Color c)
     else if (strcmp(key, "bright_blue")    == 0) g_theme.bright_blue    = c;
     else if (strcmp(key, "bright_purple")  == 0) g_theme.bright_purple  = c;
     else if (strcmp(key, "bright_aqua")    == 0) g_theme.bright_aqua    = c;
+    else if (strcmp(key, "bright_orange")  == 0) g_theme.bright_orange  = c;
+    else if (strcmp(key, "bg_hard")        == 0) g_theme.bg_hard        = c;
+    else if (strcmp(key, "bg_soft")        == 0) g_theme.bg_soft        = c;
+    else if (strcmp(key, "white")          == 0) g_theme.white          = c;
 }
 
 void theme_load(void)
@@ -266,6 +286,10 @@ int theme_write(const Theme *t)
     fprintf(f, "bright_blue   = %02x%02x%02x\n", t->bright_blue.r,   t->bright_blue.g,   t->bright_blue.b);
     fprintf(f, "bright_purple = %02x%02x%02x\n", t->bright_purple.r, t->bright_purple.g, t->bright_purple.b);
     fprintf(f, "bright_aqua   = %02x%02x%02x\n", t->bright_aqua.r,   t->bright_aqua.g,   t->bright_aqua.b);
+    fprintf(f, "bright_orange = %02x%02x%02x\n", t->bright_orange.r, t->bright_orange.g, t->bright_orange.b);
+    fprintf(f, "bg_hard       = %02x%02x%02x\n", t->bg_hard.r,       t->bg_hard.g,       t->bg_hard.b);
+    fprintf(f, "bg_soft       = %02x%02x%02x\n", t->bg_soft.r,       t->bg_soft.g,       t->bg_soft.b);
+    fprintf(f, "white         = %02x%02x%02x\n", t->white.r,         t->white.g,         t->white.b);
 
     fclose(f);
     return 0;

@@ -25,6 +25,10 @@ typedef struct {
     Color bright_blue;
     Color bright_purple;
     Color bright_aqua;
+    Color bright_orange;
+    Color bg_hard;
+    Color bg_soft;
+    Color white;
 } Theme;
 
 extern Theme g_theme;
