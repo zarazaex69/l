@@ -16,6 +16,9 @@ typedef struct {
     Color green;
     Color aqua;
     Color yellow;
+    Color blue;
+    Color purple;
+    Color gray;
 } Theme;
 
 extern Theme g_theme;

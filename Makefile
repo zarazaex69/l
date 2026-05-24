@@ -5,14 +5,14 @@ LDFLAGS  = -lraylib -lm -lGL -lpthread -ldl -lrt
 BUILDDIR = build
 TARGET   = $(BUILDDIR)/l
 
-SRCS     = main.c src/helloworld.c src/autorun.c src/wallcreate.c src/wallsee.c src/keybind.c src/calc.c src/clock.c src/menu.c src/paint.c src/theme.c src/themeapp.c
+SRCS     = main.c src/helloworld.c src/autorun.c src/wallcreate.c src/wallsee.c src/keybind.c src/calc.c src/clock.c src/menu.c src/paint.c src/theme.c src/theme_export.c src/themeapp.c
 
 all: $(TARGET)
 
 $(BUILDDIR):
 	mkdir -p $(BUILDDIR)
 
-$(TARGET): $(SRCS) src/core.h src/helloworld.h src/autorun.h src/wallcreate.h src/wallsee.h src/keybind.h src/calc.h src/clock.h src/menu.h src/paint.h src/theme.h src/themeapp.h | $(BUILDDIR)
+$(TARGET): $(SRCS) src/core.h src/helloworld.h src/autorun.h src/wallcreate.h src/wallsee.h src/keybind.h src/calc.h src/clock.h src/menu.h src/paint.h src/theme.h src/theme_export.h src/themeapp.h | $(BUILDDIR)
 	$(CC) $(CFLAGS) -o $@ $(SRCS) $(LDFLAGS)
 
 clean:

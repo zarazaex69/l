@@ -2,6 +2,7 @@
 #include <string.h>
 #include "core.h"
 #include "themeapp.h"
+#include "theme_export.h"
 
 #define ROW_H     56
 #define ROW_PAD   10
@@ -48,7 +49,9 @@ int app_theme(int argc, char **argv)
             if (theme_write(&builtin_themes[selected]) == 0) {
                 theme_load();
                 theme_apply_style();
-                snprintf(status, sizeof(status), "saved: %s", g_theme.name);
+                theme_export_all(&g_theme);
+                theme_reload_system();
+                snprintf(status, sizeof(status), "applied: %s", g_theme.name);
             } else {
                 snprintf(status, sizeof(status), "error writing theme.conf");
             }
@@ -102,7 +105,9 @@ int app_theme(int argc, char **argv)
             if (theme_write(&builtin_themes[selected]) == 0) {
                 theme_load();
                 theme_apply_style();
-                snprintf(status, sizeof(status), "saved: %s", g_theme.name);
+                theme_export_all(&g_theme);
+                theme_reload_system();
+                snprintf(status, sizeof(status), "applied: %s", g_theme.name);
             } else {
                 snprintf(status, sizeof(status), "error writing theme.conf");
             }

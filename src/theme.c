@@ -26,6 +26,9 @@ const Theme builtin_themes[] = {
         .green  = { 152, 151, 26,  255 },
         .aqua   = { 104, 157, 106, 255 },
         .yellow = { 215, 153, 33,  255 },
+        .blue   = { 69,  133, 136, 255 },
+        .purple = { 177, 98,  134, 255 },
+        .gray   = { 146, 131, 116, 255 },
     },
     {
         .name   = "tokyo-night",
@@ -40,6 +43,9 @@ const Theme builtin_themes[] = {
         .green  = { 0x9e, 0xce, 0x6a, 255 },
         .aqua   = { 0x7d, 0xcf, 0xff, 255 },
         .yellow = { 0xe0, 0xaf, 0x68, 255 },
+        .blue   = { 0x7a, 0xa2, 0xf7, 255 },
+        .purple = { 0xbb, 0x9a, 0xf7, 255 },
+        .gray   = { 0x56, 0x5f, 0x89, 255 },
     },
     {
         .name   = "catppuccin-mocha",
@@ -54,6 +60,9 @@ const Theme builtin_themes[] = {
         .green  = { 0xa6, 0xe3, 0xa1, 255 },
         .aqua   = { 0x94, 0xe2, 0xd5, 255 },
         .yellow = { 0xf9, 0xe2, 0xaf, 255 },
+        .blue   = { 0x89, 0xb4, 0xfa, 255 },
+        .purple = { 0xcb, 0xa6, 0xf7, 255 },
+        .gray   = { 0x6c, 0x70, 0x86, 255 },
     },
     {
         .name   = "nord",
@@ -68,6 +77,9 @@ const Theme builtin_themes[] = {
         .green  = { 0xa3, 0xbe, 0x8c, 255 },
         .aqua   = { 0x88, 0xc0, 0xd0, 255 },
         .yellow = { 0xeb, 0xcb, 0x8b, 255 },
+        .blue   = { 0x81, 0xa1, 0xc1, 255 },
+        .purple = { 0xb4, 0x8e, 0xad, 255 },
+        .gray   = { 0x4c, 0x56, 0x6a, 255 },
     },
 };
 
@@ -140,6 +152,9 @@ static void assign_color(const char *key, Color c)
     else if (strcmp(key, "green")  == 0) g_theme.green  = c;
     else if (strcmp(key, "aqua")   == 0) g_theme.aqua   = c;
     else if (strcmp(key, "yellow") == 0) g_theme.yellow = c;
+    else if (strcmp(key, "blue")   == 0) g_theme.blue   = c;
+    else if (strcmp(key, "purple") == 0) g_theme.purple = c;
+    else if (strcmp(key, "gray")   == 0) g_theme.gray   = c;
 }
 
 void theme_load(void)
@@ -203,6 +218,9 @@ int theme_write(const Theme *t)
     fprintf(f, "green  = %02x%02x%02x\n", t->green.r,  t->green.g,  t->green.b);
     fprintf(f, "aqua   = %02x%02x%02x\n", t->aqua.r,   t->aqua.g,   t->aqua.b);
     fprintf(f, "yellow = %02x%02x%02x\n", t->yellow.r, t->yellow.g, t->yellow.b);
+    fprintf(f, "blue   = %02x%02x%02x\n", t->blue.r,   t->blue.g,   t->blue.b);
+    fprintf(f, "purple = %02x%02x%02x\n", t->purple.r, t->purple.g, t->purple.b);
+    fprintf(f, "gray   = %02x%02x%02x\n", t->gray.r,   t->gray.g,   t->gray.b);
 
     fclose(f);
     return 0;
