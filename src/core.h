@@ -28,7 +28,11 @@ static inline void core_init(const char *title, int w, int h)
     InitWindow(w, h, title);
 
     if (!IsWindowReady()) {
-        fprintf(stderr, "error: no display available (need wayland or x11 session)\n");
+        fprintf(stderr, "error: failed to create window\n");
+        fprintf(stderr, "  * needs wayland or x11 session\n");
+        fprintf(stderr, "  * on old gpus / glx fb config errors, try:\n");
+        fprintf(stderr, "      LIBGL_ALWAYS_SOFTWARE=1 l %s\n", title);
+        fprintf(stderr, "      MESA_GL_VERSION_OVERRIDE=3.3 l %s\n", title);
         exit(1);
     }
 
