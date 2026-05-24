@@ -18,6 +18,7 @@ Font g_font = {0};
 #include "clock.h"
 #include "menu.h"
 #include "paint.h"
+#include "themeapp.h"
 
 // program registry
 typedef struct {
@@ -27,15 +28,16 @@ typedef struct {
 } Program;
 
 static const Program programs[] = {
-    { "helloworld",  app_helloworld,  "gruvbox hello world window" },
+    { "helloworld",  app_helloworld,  "hello world window" },
     { "autorun",     app_autorun,     "sway autorun manager" },
     { "wallcreate",  app_wallcreate,  "generate gradient wallpaper (ppm)" },
     { "wallsee",     app_wallsee,     "wallpaper configurator gui" },
     { "keybind",     app_keybind,     "sway keybind viewer" },
-    { "calc",        app_calc,        "gruvbox calculator" },
+    { "calc",        app_calc,        "calculator" },
     { "clock",       app_clock,       "analog clock" },
     { "menu",        app_menu,        "power menu (shutdown/reboot)" },
     { "paint",       app_paint,       "minimal paint canvas" },
+    { "theme",       app_theme,       "switch color theme" },
 };
 
 static const int program_count = sizeof(programs) / sizeof(programs[0]);

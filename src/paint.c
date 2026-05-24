@@ -225,7 +225,7 @@ int app_paint(int argc, char **argv)
     int ch = (int)canvas_area.height;
 
     // --- background layer (Texture2D updated via UpdateTexture) ---
-    Color paper = GRV_FG0;
+    Color paper = g_theme.fg0;
     unsigned char *bg_buf = malloc(cw * ch * 3);
     paint_fill_solid(bg_buf, cw, ch, paper);
 
@@ -245,12 +245,12 @@ int app_paint(int argc, char **argv)
 
     // palette
     Color palette[PAINT_PALETTE_SIZE] = {
-        GRV_BG,    GRV_BG1,   GRV_BG2,   GRV_BG3,
-        GRV_FG,    GRV_FG0,   GRV_RED,   GRV_ORANGE,
-        GRV_YELLOW, GRV_GREEN, GRV_AQUA, (Color){ 0, 0, 0, 255 },
+        g_theme.bg,    g_theme.bg1,   g_theme.bg2,   g_theme.bg3,
+        g_theme.fg,    g_theme.fg0,   g_theme.red,   g_theme.orange,
+        g_theme.yellow, g_theme.green, g_theme.aqua, (Color){ 0, 0, 0, 255 },
     };
 
-    Color current_color = GRV_BG;
+    Color current_color = g_theme.bg;
     PaintTool tool      = TOOL_BRUSH;
     float brush_size    = 4.0f;
 
@@ -324,38 +324,38 @@ int app_paint(int argc, char **argv)
 
         // ============ render ============
         BeginDrawing();
-        ClearBackground(GRV_BG);
+        ClearBackground(g_theme.bg);
 
         // ---- toolbar ----
-        DrawRectangle(0, 0, win_w, toolbar_h, GRV_BG1);
-        DrawLineEx((Vector2){ 0, (float)toolbar_h }, (Vector2){ (float)win_w, (float)toolbar_h }, 1, GRV_BG3);
+        DrawRectangle(0, 0, win_w, toolbar_h, g_theme.bg1);
+        DrawLineEx((Vector2){ 0, (float)toolbar_h }, (Vector2){ (float)win_w, (float)toolbar_h }, 1, g_theme.bg3);
 
         GuiSetStyle(BUTTON, BASE_COLOR_NORMAL,
-            grv_color(tool == TOOL_BRUSH ? GRV_GREEN : GRV_BG2));
+            theme_color(tool == TOOL_BRUSH ? g_theme.green : g_theme.bg2));
         GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL,
-            grv_color(tool == TOOL_BRUSH ? GRV_BG : GRV_FG));
+            theme_color(tool == TOOL_BRUSH ? g_theme.bg : g_theme.fg));
         if (GuiButton((Rectangle){ 10, 12, 80, 32 }, "brush"))  tool = TOOL_BRUSH;
 
         GuiSetStyle(BUTTON, BASE_COLOR_NORMAL,
-            grv_color(tool == TOOL_ERASER ? GRV_GREEN : GRV_BG2));
+            theme_color(tool == TOOL_ERASER ? g_theme.green : g_theme.bg2));
         GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL,
-            grv_color(tool == TOOL_ERASER ? GRV_BG : GRV_FG));
+            theme_color(tool == TOOL_ERASER ? g_theme.bg : g_theme.fg));
         if (GuiButton((Rectangle){ 100, 12, 80, 32 }, "eraser")) tool = TOOL_ERASER;
 
-        apply_gruvbox_style();
+        theme_apply_style();
 
-        GuiSetStyle(BUTTON, BASE_COLOR_NORMAL,   grv_color(GRV_RED));
-        GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL,   grv_color(GRV_FG0));
-        GuiSetStyle(BUTTON, BORDER_COLOR_NORMAL, grv_color(GRV_RED));
+        GuiSetStyle(BUTTON, BASE_COLOR_NORMAL,   theme_color(g_theme.red));
+        GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL,   theme_color(g_theme.fg0));
+        GuiSetStyle(BUTTON, BORDER_COLOR_NORMAL, theme_color(g_theme.red));
         if (GuiButton((Rectangle){ 190, 12, 80, 32 }, "clear")) {
             BeginTextureMode(draw_tex);
             ClearBackground(BLANK);
             EndTextureMode();
         }
 
-        GuiSetStyle(BUTTON, BASE_COLOR_NORMAL,   grv_color(GRV_AQUA));
-        GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL,   grv_color(GRV_BG));
-        GuiSetStyle(BUTTON, BORDER_COLOR_NORMAL, grv_color(GRV_AQUA));
+        GuiSetStyle(BUTTON, BASE_COLOR_NORMAL,   theme_color(g_theme.aqua));
+        GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL,   theme_color(g_theme.bg));
+        GuiSetStyle(BUTTON, BORDER_COLOR_NORMAL, theme_color(g_theme.aqua));
         if (GuiButton((Rectangle){ 280, 12, 80, 32 }, "save")) {
             // composite bg + draw into a temporary render texture, then export
             RenderTexture2D out = LoadRenderTexture(cw, ch);
@@ -384,26 +384,26 @@ int app_paint(int argc, char **argv)
             UnloadRenderTexture(out);
         }
 
-        apply_gruvbox_style();
+        theme_apply_style();
 
         // brush size
         char size_label[16];
         snprintf(size_label, sizeof(size_label), "%d", (int)brush_size);
-        DrawTextEx(g_font, "size", (Vector2){ 380, 20 }, 16, 1, GRV_FG);
+        DrawTextEx(g_font, "size", (Vector2){ 380, 20 }, 16, 1, g_theme.fg);
         GuiSlider((Rectangle){ 420, 18, 140, 22 }, NULL, size_label, &brush_size, 1.0f, 60.0f);
 
         // hint / status
         if (status_until > GetTime() && status_msg[0]) {
-            DrawTextEx(g_font, status_msg, (Vector2){ 580, 20 }, 16, 1, GRV_YELLOW);
+            DrawTextEx(g_font, status_msg, (Vector2){ 580, 20 }, 16, 1, g_theme.yellow);
         } else {
             const char *hint = "B brush  E eraser  C clear  [ ] size";
-            DrawTextEx(g_font, hint, (Vector2){ 580, 22 }, 13, 1, GRV_BG3);
+            DrawTextEx(g_font, hint, (Vector2){ 580, 22 }, 13, 1, g_theme.bg3);
         }
 
         // ---- left palette ----
-        DrawRectangle(0, toolbar_h, palette_w, win_h - toolbar_h, GRV_BG1);
+        DrawRectangle(0, toolbar_h, palette_w, win_h - toolbar_h, g_theme.bg1);
         DrawLineEx((Vector2){ (float)palette_w, (float)toolbar_h },
-                   (Vector2){ (float)palette_w, (float)win_h }, 1, GRV_BG3);
+                   (Vector2){ (float)palette_w, (float)win_h }, 1, g_theme.bg3);
 
         int sw   = 36;
         int ppad = 10;
@@ -417,7 +417,7 @@ int app_paint(int argc, char **argv)
 
             DrawRectangleRec(r, palette[i]);
             bool selected = (tool == TOOL_BRUSH) && color_eq(palette[i], current_color);
-            DrawRectangleLinesEx(r, selected ? 3 : 1, selected ? GRV_YELLOW : GRV_BG3);
+            DrawRectangleLinesEx(r, selected ? 3 : 1, selected ? g_theme.yellow : g_theme.bg3);
 
             if (CheckCollisionPointRec(mouse, r) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
                 current_color = palette[i];
@@ -432,45 +432,45 @@ int app_paint(int argc, char **argv)
             (Rectangle){ 0, 0, canvas_area.width, -canvas_area.height },
             (Vector2){ canvas_area.x, canvas_area.y },
             WHITE);
-        DrawRectangleLinesEx(canvas_area, 1, GRV_BG3);
+        DrawRectangleLinesEx(canvas_area, 1, g_theme.bg3);
 
         // brush cursor preview
         if (in_canvas) {
             Color preview = (tool == TOOL_ERASER) ? (Color){ 200, 200, 200, 200 } : current_color;
-            DrawCircleLines((int)mouse.x, (int)mouse.y, brush_size, GRV_BG);
+            DrawCircleLines((int)mouse.x, (int)mouse.y, brush_size, g_theme.bg);
             DrawCircleLines((int)mouse.x, (int)mouse.y, brush_size + 1, preview);
         }
 
         // ---- right wallgen panel ----
         int px = win_w - wallgen_w;
-        DrawRectangle(px, toolbar_h, wallgen_w, win_h - toolbar_h, GRV_BG1);
+        DrawRectangle(px, toolbar_h, wallgen_w, win_h - toolbar_h, g_theme.bg1);
         DrawLineEx((Vector2){ (float)px, (float)toolbar_h },
-                   (Vector2){ (float)px, (float)win_h }, 1, GRV_BG3);
+                   (Vector2){ (float)px, (float)win_h }, 1, g_theme.bg3);
 
-        DrawTextEx(g_font, "wallgen", (Vector2){ (float)(px + 12), (float)(toolbar_h + 10) }, 18, 1, GRV_AQUA);
+        DrawTextEx(g_font, "wallgen", (Vector2){ (float)(px + 12), (float)(toolbar_h + 10) }, 18, 1, g_theme.aqua);
 
         float wy = (float)(toolbar_h + 44);
         char buf[32];
 
-        DrawTextEx(g_font, "time", (Vector2){ (float)(px + 12), wy }, 14, 1, GRV_FG);
+        DrawTextEx(g_font, "time", (Vector2){ (float)(px + 12), wy }, 14, 1, g_theme.fg);
         snprintf(buf, sizeof(buf), "%.1f", wg_time);
-        DrawTextEx(g_font, buf, (Vector2){ (float)(px + wallgen_w - 50), wy }, 14, 1, GRV_YELLOW);
+        DrawTextEx(g_font, buf, (Vector2){ (float)(px + wallgen_w - 50), wy }, 14, 1, g_theme.yellow);
         wy += 18;
         GuiSliderBar((Rectangle){ (float)(px + 12), wy, (float)(wallgen_w - 24), 18 },
                      NULL, NULL, &wg_time, 0.0f, 24.0f);
         wy += 28;
 
-        DrawTextEx(g_font, "grain", (Vector2){ (float)(px + 12), wy }, 14, 1, GRV_FG);
+        DrawTextEx(g_font, "grain", (Vector2){ (float)(px + 12), wy }, 14, 1, g_theme.fg);
         snprintf(buf, sizeof(buf), "%d", (int)wg_grain);
-        DrawTextEx(g_font, buf, (Vector2){ (float)(px + wallgen_w - 50), wy }, 14, 1, GRV_YELLOW);
+        DrawTextEx(g_font, buf, (Vector2){ (float)(px + wallgen_w - 50), wy }, 14, 1, g_theme.yellow);
         wy += 18;
         GuiSliderBar((Rectangle){ (float)(px + 12), wy, (float)(wallgen_w - 24), 18 },
                      NULL, NULL, &wg_grain, 0.0f, 30.0f);
         wy += 28;
 
-        DrawTextEx(g_font, "angle", (Vector2){ (float)(px + 12), wy }, 14, 1, GRV_FG);
+        DrawTextEx(g_font, "angle", (Vector2){ (float)(px + 12), wy }, 14, 1, g_theme.fg);
         snprintf(buf, sizeof(buf), "%.0f", wg_angle);
-        DrawTextEx(g_font, buf, (Vector2){ (float)(px + wallgen_w - 50), wy }, 14, 1, GRV_YELLOW);
+        DrawTextEx(g_font, buf, (Vector2){ (float)(px + wallgen_w - 50), wy }, 14, 1, g_theme.yellow);
         wy += 18;
         GuiSliderBar((Rectangle){ (float)(px + 12), wy, (float)(wallgen_w - 24), 18 },
                      NULL, NULL, &wg_angle, 0.0f, 360.0f);
@@ -480,9 +480,9 @@ int app_paint(int argc, char **argv)
         wy += 30;
 
         // fill button
-        GuiSetStyle(BUTTON, BASE_COLOR_NORMAL,   grv_color(GRV_GREEN));
-        GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL,   grv_color(GRV_BG));
-        GuiSetStyle(BUTTON, BORDER_COLOR_NORMAL, grv_color(GRV_GREEN));
+        GuiSetStyle(BUTTON, BASE_COLOR_NORMAL,   theme_color(g_theme.green));
+        GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL,   theme_color(g_theme.bg));
+        GuiSetStyle(BUTTON, BORDER_COLOR_NORMAL, theme_color(g_theme.green));
         if (GuiButton((Rectangle){ (float)(px + 12), wy, (float)(wallgen_w - 24), 32 }, "fill canvas")) {
             paint_gen_gradient(bg_buf, cw, ch, wg_time, (int)wg_grain, wg_angle);
             UpdateTexture(bg_tex, bg_buf);
@@ -492,10 +492,10 @@ int app_paint(int argc, char **argv)
         wy += 40;
 
         // reset to paper
-        apply_gruvbox_style();
-        GuiSetStyle(BUTTON, BASE_COLOR_NORMAL,   grv_color(GRV_BG2));
-        GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL,   grv_color(GRV_FG));
-        GuiSetStyle(BUTTON, BORDER_COLOR_NORMAL, grv_color(GRV_AQUA));
+        theme_apply_style();
+        GuiSetStyle(BUTTON, BASE_COLOR_NORMAL,   theme_color(g_theme.bg2));
+        GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL,   theme_color(g_theme.fg));
+        GuiSetStyle(BUTTON, BORDER_COLOR_NORMAL, theme_color(g_theme.aqua));
         if (GuiButton((Rectangle){ (float)(px + 12), wy, (float)(wallgen_w - 24), 28 }, "reset to paper")) {
             paint_fill_solid(bg_buf, cw, ch, paper);
             UpdateTexture(bg_tex, bg_buf);
@@ -504,9 +504,9 @@ int app_paint(int argc, char **argv)
         wy += 36;
 
         // export wallpaper at 1920x1080
-        GuiSetStyle(BUTTON, BASE_COLOR_NORMAL,   grv_color(GRV_ORANGE));
-        GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL,   grv_color(GRV_BG));
-        GuiSetStyle(BUTTON, BORDER_COLOR_NORMAL, grv_color(GRV_ORANGE));
+        GuiSetStyle(BUTTON, BASE_COLOR_NORMAL,   theme_color(g_theme.orange));
+        GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL,   theme_color(g_theme.bg));
+        GuiSetStyle(BUTTON, BORDER_COLOR_NORMAL, theme_color(g_theme.orange));
         if (GuiButton((Rectangle){ (float)(px + 12), wy, (float)(wallgen_w - 24), 32 }, "save wallpaper")) {
             char dir[512];
             paint_ensure_wallpapers_dir(dir, sizeof(dir));
@@ -527,9 +527,9 @@ int app_paint(int argc, char **argv)
         wy += 40;
 
         // apply as wallpaper via swaymsg + lock
-        GuiSetStyle(BUTTON, BASE_COLOR_NORMAL,   grv_color(GRV_YELLOW));
-        GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL,   grv_color(GRV_BG));
-        GuiSetStyle(BUTTON, BORDER_COLOR_NORMAL, grv_color(GRV_YELLOW));
+        GuiSetStyle(BUTTON, BASE_COLOR_NORMAL,   theme_color(g_theme.yellow));
+        GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL,   theme_color(g_theme.bg));
+        GuiSetStyle(BUTTON, BORDER_COLOR_NORMAL, theme_color(g_theme.yellow));
         if (GuiButton((Rectangle){ (float)(px + 12), wy, (float)(wallgen_w - 24), 32 }, "set wallpaper")) {
             char dir[512];
             paint_ensure_wallpapers_dir(dir, sizeof(dir));
@@ -552,7 +552,7 @@ int app_paint(int argc, char **argv)
             status_until = GetTime() + 4.0;
         }
 
-        apply_gruvbox_style();
+        theme_apply_style();
 
         EndDrawing();
     }

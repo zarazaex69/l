@@ -184,11 +184,11 @@ int app_calc(int argc, char **argv)
         }
 
         BeginDrawing();
-        ClearBackground(GRV_BG);
+        ClearBackground(g_theme.bg);
 
         Rectangle disp_rect = { (float)pad, (float)pad, (float)(win_w - pad * 2), (float)display_h };
-        DrawRectangleRec(disp_rect, GRV_BG1);
-        DrawRectangleLinesEx(disp_rect, 1, GRV_BG3);
+        DrawRectangleRec(disp_rect, g_theme.bg1);
+        DrawRectangleLinesEx(disp_rect, 1, g_theme.bg3);
 
         const char *disp_text = state.error ? "ERR: div/0" : state.display;
         float max_text_w = disp_rect.width - 20;
@@ -200,7 +200,7 @@ int app_calc(int argc, char **argv)
         }
         float text_x = disp_rect.x + disp_rect.width - text_size.x - 10;
         float text_y = disp_rect.y + (disp_rect.height - text_size.y) / 2;
-        Color text_color = state.error ? GRV_RED : GRV_FG0;
+        Color text_color = state.error ? g_theme.red : g_theme.fg0;
         DrawTextEx(g_font, disp_text, (Vector2){ text_x, text_y }, (float)font_size, 1, text_color);
 
         float start_y = (float)(display_h + pad * 2);
@@ -215,21 +215,21 @@ int app_calc(int argc, char **argv)
                 bool is_equals = (row == 4 && col == 2);
 
                 if (is_op) {
-                    GuiSetStyle(BUTTON, BASE_COLOR_NORMAL, grv_color(GRV_BG3));
-                    GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL, grv_color(GRV_ORANGE));
-                    GuiSetStyle(BUTTON, BORDER_COLOR_NORMAL, grv_color(GRV_ORANGE));
+                    GuiSetStyle(BUTTON, BASE_COLOR_NORMAL, theme_color(g_theme.bg3));
+                    GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL, theme_color(g_theme.orange));
+                    GuiSetStyle(BUTTON, BORDER_COLOR_NORMAL, theme_color(g_theme.orange));
                 } else if (is_clear) {
-                    GuiSetStyle(BUTTON, BASE_COLOR_NORMAL, grv_color(GRV_RED));
-                    GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL, grv_color(GRV_FG0));
-                    GuiSetStyle(BUTTON, BORDER_COLOR_NORMAL, grv_color(GRV_RED));
+                    GuiSetStyle(BUTTON, BASE_COLOR_NORMAL, theme_color(g_theme.red));
+                    GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL, theme_color(g_theme.fg0));
+                    GuiSetStyle(BUTTON, BORDER_COLOR_NORMAL, theme_color(g_theme.red));
                 } else if (is_equals) {
-                    GuiSetStyle(BUTTON, BASE_COLOR_NORMAL, grv_color(GRV_GREEN));
-                    GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL, grv_color(GRV_BG));
-                    GuiSetStyle(BUTTON, BORDER_COLOR_NORMAL, grv_color(GRV_GREEN));
+                    GuiSetStyle(BUTTON, BASE_COLOR_NORMAL, theme_color(g_theme.green));
+                    GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL, theme_color(g_theme.bg));
+                    GuiSetStyle(BUTTON, BORDER_COLOR_NORMAL, theme_color(g_theme.green));
                 } else {
-                    GuiSetStyle(BUTTON, BASE_COLOR_NORMAL, grv_color(GRV_BG2));
-                    GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL, grv_color(GRV_FG));
-                    GuiSetStyle(BUTTON, BORDER_COLOR_NORMAL, grv_color(GRV_AQUA));
+                    GuiSetStyle(BUTTON, BASE_COLOR_NORMAL, theme_color(g_theme.bg2));
+                    GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL, theme_color(g_theme.fg));
+                    GuiSetStyle(BUTTON, BORDER_COLOR_NORMAL, theme_color(g_theme.aqua));
                 }
 
                 if (GuiButton(r, labels[row][col])) {
@@ -258,7 +258,7 @@ int app_calc(int argc, char **argv)
             }
         }
 
-        apply_gruvbox_style();
+        theme_apply_style();
         EndDrawing();
     }
 

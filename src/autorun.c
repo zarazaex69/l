@@ -278,10 +278,10 @@ int app_autorun(int argc, char **argv)
         if (scroll_y > max_scroll) scroll_y = max_scroll;
 
         BeginDrawing();
-        ClearBackground(GRV_BG);
+        ClearBackground(g_theme.bg);
 
         // title
-        DrawTextEx(g_font, "sway autorun manager", (Vector2){ 16, 12 }, 20, 1, GRV_AQUA);
+        DrawTextEx(g_font, "sway autorun manager", (Vector2){ 16, 12 }, 20, 1, g_theme.aqua);
 
         // entry list area
         DrawRectangle(10, 40, 580, 340, (Color){ 50, 48, 47, 255 });
@@ -308,7 +308,7 @@ int app_autorun(int argc, char **argv)
             }
 
             // display name
-            Color text_col = entries[i].enabled ? GRV_FG : GRV_BG3;
+            Color text_col = entries[i].enabled ? g_theme.fg : g_theme.bg3;
             DrawTextEx(g_font, entries[i].display, (Vector2){ 44, y }, 15, 1, text_col);
 
             // remove button (vertically centered in row)
@@ -322,7 +322,7 @@ int app_autorun(int argc, char **argv)
         EndScissorMode();
 
         // add new entry section
-        DrawTextEx(g_font, "add:", (Vector2){ 16, 392 }, 15, 1, GRV_FG);
+        DrawTextEx(g_font, "add:", (Vector2){ 16, 392 }, 15, 1, g_theme.fg);
 
         if (GuiTextBox((Rectangle){ 60, 388, 420, 24 }, add_buf, MAX_LINE_LEN, add_editing))
             add_editing = !add_editing;
@@ -344,7 +344,7 @@ int app_autorun(int argc, char **argv)
         // status bar
         if (status_timer > 0) {
             status_timer--;
-            DrawTextEx(g_font, status_msg, (Vector2){ 290, 438 }, 15, 1, GRV_YELLOW);
+            DrawTextEx(g_font, status_msg, (Vector2){ 290, 438 }, 15, 1, g_theme.yellow);
         }
 
         EndDrawing();

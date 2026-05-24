@@ -407,13 +407,13 @@ int app_keybind(int argc, char **argv)
         if (kb_scroll > max_scroll) kb_scroll = max_scroll;
 
         BeginDrawing();
-        ClearBackground(GRV_BG);
+        ClearBackground(g_theme.bg);
 
         // title
-        DrawTextEx(g_font, "keybind", (Vector2){ 16, 10 }, 20, 1, GRV_AQUA);
+        DrawTextEx(g_font, "keybind", (Vector2){ 16, 10 }, 20, 1, g_theme.aqua);
 
         // search
-        DrawTextEx(g_font, "search:", (Vector2){ 120, 14 }, 15, 1, GRV_FG);
+        DrawTextEx(g_font, "search:", (Vector2){ 120, 14 }, 15, 1, g_theme.fg);
         if (GuiTextBox((Rectangle){ 190, 10, 300, 24 }, kb_search,
                        KB_MAX_SEARCH, kb_search_editing))
             kb_search_editing = !kb_search_editing;
@@ -433,7 +433,7 @@ int app_keybind(int argc, char **argv)
                     vis++;
             char buf[32];
             snprintf(buf, sizeof(buf), "[%d]", vis);
-            DrawTextEx(g_font, buf, (Vector2){ 610, 14 }, 15, 1, GRV_BG3);
+            DrawTextEx(g_font, buf, (Vector2){ 610, 14 }, 15, 1, g_theme.bg3);
         }
 
         // list bg
@@ -463,13 +463,13 @@ int app_keybind(int argc, char **argv)
                     DrawRectangle(12, (int)y, win_w - 24, KB_HDR_H - 4,
                                   (Color){ 60, 56, 54, 255 });
                     DrawTextEx(g_font, "[L]",
-                               (Vector2){ 18, y + 5 }, 15, 1, GRV_ORANGE);
+                               (Vector2){ 18, y + 5 }, 15, 1, g_theme.orange);
                     DrawTextEx(g_font, e->text,
-                               (Vector2){ 54, y + 5 }, 15, 1, GRV_YELLOW);
+                               (Vector2){ 54, y + 5 }, 15, 1, g_theme.yellow);
                     // source on the right
                     DrawTextEx(g_font, e->source,
                                (Vector2){ (float)win_w - 180, y + 7 },
-                               12, 1, GRV_BG3);
+                               12, 1, g_theme.bg3);
                 }
                 y += KB_HDR_H;
                 row_alt = 0;
@@ -485,10 +485,10 @@ int app_keybind(int argc, char **argv)
 
                 // [l] tag
                 DrawTextEx(g_font, "[l]",
-                           (Vector2){ 18, y + 3 }, 13, 1, GRV_AQUA);
+                           (Vector2){ 18, y + 3 }, 13, 1, g_theme.aqua);
                 // resolved text
                 DrawTextEx(g_font, e->text,
-                           (Vector2){ 50, y + 3 }, 14, 1, GRV_FG);
+                           (Vector2){ 50, y + 3 }, 14, 1, g_theme.fg);
             }
             y += KB_ROW_H;
             row_alt++;
@@ -500,7 +500,7 @@ int app_keybind(int argc, char **argv)
         if (kb_status_timer > 0) {
             kb_status_timer--;
             DrawTextEx(g_font, kb_status,
-                       (Vector2){ 16, (float)win_h - 24 }, 15, 1, GRV_YELLOW);
+                       (Vector2){ 16, (float)win_h - 24 }, 15, 1, g_theme.yellow);
         }
 
         EndDrawing();

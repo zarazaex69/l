@@ -23,8 +23,8 @@ static void draw_hand(float cx, float cy, float angle_deg, float length, float t
 
 static void draw_clock_face(float cx, float cy, float radius)
 {
-    DrawCircleV((Vector2){ cx, cy }, radius + 4, GRV_BG3);
-    DrawCircleV((Vector2){ cx, cy }, radius, GRV_BG1);
+    DrawCircleV((Vector2){ cx, cy }, radius + 4, g_theme.bg3);
+    DrawCircleV((Vector2){ cx, cy }, radius, g_theme.bg1);
 
     for (int i = 0; i < 60; i++) {
         float angle = (float)i * 6.0f - 90.0f;
@@ -37,12 +37,12 @@ static void draw_clock_face(float cx, float cy, float radius)
             inner = radius - 18.0f;
             outer = radius - 4.0f;
             thick = 2.5f;
-            col = GRV_FG;
+            col = g_theme.fg;
         } else {
             inner = radius - 10.0f;
             outer = radius - 4.0f;
             thick = 1.0f;
-            col = GRV_BG3;
+            col = g_theme.bg3;
         }
 
         float x1 = cx + cosf(rad) * inner;
@@ -62,7 +62,7 @@ static void draw_clock_face(float cx, float cy, float radius)
         float nx = cx + cosf(rad) * nr;
         float ny = cy + sinf(rad) * nr;
         Vector2 ts = MeasureTextEx(g_font, numerals[i], 18, 1);
-        DrawTextEx(g_font, numerals[i], (Vector2){ nx - ts.x / 2, ny - ts.y / 2 }, 18, 1, GRV_FG);
+        DrawTextEx(g_font, numerals[i], (Vector2){ nx - ts.x / 2, ny - ts.y / 2 }, 18, 1, g_theme.fg);
     }
 }
 
@@ -87,22 +87,22 @@ int app_clock(int argc, char **argv)
         float hour_angle = (float)(hour % 12) * 30.0f + (float)min * 0.5f;
 
         BeginDrawing();
-        ClearBackground(GRV_BG);
+        ClearBackground(g_theme.bg);
 
         draw_clock_face(cx, cy, (float)RADIUS);
 
-        draw_hand(cx, cy, hour_angle, (float)RADIUS * 0.5f,  4.0f, GRV_AQUA);
-        draw_hand(cx, cy, min_angle,  (float)RADIUS * 0.72f, 3.0f, GRV_FG);
-        draw_hand(cx, cy, sec_angle,  (float)RADIUS * 0.85f, 1.5f, GRV_RED);
+        draw_hand(cx, cy, hour_angle, (float)RADIUS * 0.5f,  4.0f, g_theme.aqua);
+        draw_hand(cx, cy, min_angle,  (float)RADIUS * 0.72f, 3.0f, g_theme.fg);
+        draw_hand(cx, cy, sec_angle,  (float)RADIUS * 0.85f, 1.5f, g_theme.red);
 
-        DrawCircleV((Vector2){ cx, cy }, 5, GRV_ORANGE);
+        DrawCircleV((Vector2){ cx, cy }, 5, g_theme.orange);
 
         char digital[16];
         snprintf(digital, sizeof(digital), "%02d:%02d:%02d", hour, min, sec);
         Vector2 ds = MeasureTextEx(g_font, digital, 24, 1);
         float dx = cx - ds.x / 2;
         float dy = (float)CLOCK_SIZE - 40.0f;
-        DrawTextEx(g_font, digital, (Vector2){ dx, dy }, 24, 1, GRV_YELLOW);
+        DrawTextEx(g_font, digital, (Vector2){ dx, dy }, 24, 1, g_theme.yellow);
 
         EndDrawing();
     }

@@ -16,17 +16,17 @@ int app_menu(int argc, char **argv)
 
     while (!WindowShouldClose()) {
         BeginDrawing();
-        ClearBackground(GRV_BG);
+        ClearBackground(g_theme.bg);
 
         float x = (float)(win_w - BTN_W) / 2;
         float y = 20.0f;
 
-        DrawTextEx(g_font, "power menu", (Vector2){ x + 40, y }, 20, 1, GRV_AQUA);
+        DrawTextEx(g_font, "power menu", (Vector2){ x + 40, y }, 20, 1, g_theme.aqua);
         y += 36.0f;
 
-        GuiSetStyle(BUTTON, BASE_COLOR_NORMAL,   grv_color(GRV_RED));
-        GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL,    grv_color(GRV_FG0));
-        GuiSetStyle(BUTTON, BORDER_COLOR_NORMAL,  grv_color(GRV_RED));
+        GuiSetStyle(BUTTON, BASE_COLOR_NORMAL,   theme_color(g_theme.red));
+        GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL,    theme_color(g_theme.fg0));
+        GuiSetStyle(BUTTON, BORDER_COLOR_NORMAL,  theme_color(g_theme.red));
         if (GuiButton((Rectangle){ x, y, BTN_W, BTN_H }, "Shutdown")) {
             core_close();
             system("systemctl poweroff");
@@ -34,9 +34,9 @@ int app_menu(int argc, char **argv)
         }
         y += BTN_H + PAD;
 
-        GuiSetStyle(BUTTON, BASE_COLOR_NORMAL,   grv_color(GRV_ORANGE));
-        GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL,    grv_color(GRV_BG));
-        GuiSetStyle(BUTTON, BORDER_COLOR_NORMAL,  grv_color(GRV_ORANGE));
+        GuiSetStyle(BUTTON, BASE_COLOR_NORMAL,   theme_color(g_theme.orange));
+        GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL,    theme_color(g_theme.bg));
+        GuiSetStyle(BUTTON, BORDER_COLOR_NORMAL,  theme_color(g_theme.orange));
         if (GuiButton((Rectangle){ x, y, BTN_W, BTN_H }, "Reboot")) {
             core_close();
             system("systemctl reboot");
@@ -44,9 +44,9 @@ int app_menu(int argc, char **argv)
         }
         y += BTN_H + PAD;
 
-        GuiSetStyle(BUTTON, BASE_COLOR_NORMAL,   grv_color(GRV_BG2));
-        GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL,    grv_color(GRV_FG));
-        GuiSetStyle(BUTTON, BORDER_COLOR_NORMAL,  grv_color(GRV_AQUA));
+        GuiSetStyle(BUTTON, BASE_COLOR_NORMAL,   theme_color(g_theme.bg2));
+        GuiSetStyle(BUTTON, TEXT_COLOR_NORMAL,    theme_color(g_theme.fg));
+        GuiSetStyle(BUTTON, BORDER_COLOR_NORMAL,  theme_color(g_theme.aqua));
         if (GuiButton((Rectangle){ x, y, BTN_W, BTN_H }, "Exit")) {
             break;
         }

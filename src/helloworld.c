@@ -9,9 +9,9 @@ int app_helloworld(int argc, char **argv)
     bool should_close = false;
     while (!WindowShouldClose() && !should_close) {
         BeginDrawing();
-        ClearBackground(GRV_BG);
+        ClearBackground(g_theme.bg);
 
-        DrawTextEx(g_font, "Hello, World!", (Vector2){ 110, 60 }, 24, 1, GRV_FG);
+        DrawTextEx(g_font, "Hello, World!", (Vector2){ 110, 60 }, 24, 1, g_theme.fg);
 
         if (GuiButton((Rectangle){ 150, 120, 100, 40 }, "OK"))
             should_close = true;

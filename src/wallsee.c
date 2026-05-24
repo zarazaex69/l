@@ -277,16 +277,16 @@ int app_wallsee(int argc, char **argv)
         }
 
         BeginDrawing();
-        ClearBackground(GRV_BG);
+        ClearBackground(g_theme.bg);
 
         // title
-        DrawTextEx(g_font, "wallsee", (Vector2){ 16, 10 }, 20, 1, GRV_AQUA);
+        DrawTextEx(g_font, "wallsee", (Vector2){ 16, 10 }, 20, 1, g_theme.aqua);
 
         // lock indicator
         if (ws_lock_exists()) {
-            DrawTextEx(g_font, "[locked]", (Vector2){ 340, 10 }, 15, 1, GRV_GREEN);
+            DrawTextEx(g_font, "[locked]", (Vector2){ 340, 10 }, 15, 1, g_theme.green);
         } else {
-            DrawTextEx(g_font, "[unlocked]", (Vector2){ 330, 10 }, 15, 1, GRV_RED);
+            DrawTextEx(g_font, "[unlocked]", (Vector2){ 330, 10 }, 15, 1, g_theme.red);
         }
 
         // preview
@@ -298,25 +298,25 @@ int app_wallsee(int argc, char **argv)
         float old_grain = grain_f;
         float old_angle = angle_f;
 
-        DrawTextEx(g_font, "time", (Vector2){ 16, y }, 15, 1, GRV_FG);
+        DrawTextEx(g_font, "time", (Vector2){ 16, y }, 15, 1, g_theme.fg);
         GuiSliderBar((Rectangle){ 80, y, 260, 20 }, NULL, NULL, &time_val, 0.0f, 24.0f);
         char time_str[32];
         snprintf(time_str, sizeof(time_str), "%.1f", time_val);
-        DrawTextEx(g_font, time_str, (Vector2){ 350, y }, 15, 1, GRV_YELLOW);
+        DrawTextEx(g_font, time_str, (Vector2){ 350, y }, 15, 1, g_theme.yellow);
 
         y += 32.0f;
-        DrawTextEx(g_font, "grain", (Vector2){ 16, y }, 15, 1, GRV_FG);
+        DrawTextEx(g_font, "grain", (Vector2){ 16, y }, 15, 1, g_theme.fg);
         GuiSliderBar((Rectangle){ 80, y, 260, 20 }, NULL, NULL, &grain_f, 0.0f, 30.0f);
         char grain_str[32];
         snprintf(grain_str, sizeof(grain_str), "%d", (int)grain_f);
-        DrawTextEx(g_font, grain_str, (Vector2){ 350, y }, 15, 1, GRV_YELLOW);
+        DrawTextEx(g_font, grain_str, (Vector2){ 350, y }, 15, 1, g_theme.yellow);
 
         y += 32.0f;
-        DrawTextEx(g_font, "angle", (Vector2){ 16, y }, 15, 1, GRV_FG);
+        DrawTextEx(g_font, "angle", (Vector2){ 16, y }, 15, 1, g_theme.fg);
         GuiSliderBar((Rectangle){ 80, y, 260, 20 }, NULL, NULL, &angle_f, 0.0f, 360.0f);
         char angle_str[32];
         snprintf(angle_str, sizeof(angle_str), "%.0f", angle_f);
-        DrawTextEx(g_font, angle_str, (Vector2){ 350, y }, 15, 1, GRV_YELLOW);
+        DrawTextEx(g_font, angle_str, (Vector2){ 350, y }, 15, 1, g_theme.yellow);
 
         // detect slider changes
         if (old_time != time_val || old_grain != grain_f || old_angle != angle_f)
@@ -352,7 +352,7 @@ int app_wallsee(int argc, char **argv)
         // status bar
         if (ws_status_timer > 0) {
             ws_status_timer--;
-            DrawTextEx(g_font, ws_status, (Vector2){ 16, y + 40 }, 15, 1, GRV_YELLOW);
+            DrawTextEx(g_font, ws_status, (Vector2){ 16, y + 40 }, 15, 1, g_theme.yellow);
         }
 
         EndDrawing();
